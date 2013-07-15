@@ -28,16 +28,20 @@ mkdir -p $CACHE_DIR/.tools/graphviz
 export PATH=/sbin:/usr/sbin:$PATH:
 
 echo "-----> Fetching graphviz"
-cd $WGET_BUILD
-curl -O http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.28.0.tar.gz >/dev/null 2>&1
-tar zxvf graphviz-2.28.0.tar.gz >/dev/null 2>&1
-cd graphviz-2.28.0
+cd $GRAPHVIZ_BUILD
+curl -O http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.30.1.tar.gz
+tar zxvf graphviz-2.30.1.tar.gz >/dev/null 2>&1
+cd graphviz-2.30.1
 echo "-----> Configuring graphviz"
-./configure --prefix=$CACHE_DIR/.tools/graphviz >/dev/null 2>&1
+./configure --prefix=$CACHE_DIR/.tools/graphviz
 echo "-----> Compiling graphviz"
-make -j5 >/dev/null 2>&1
+make -j5
 echo "-----> Installing graphviz"
-make install >/dev/null 2>&1
+make install
 echo "grapvhiz installed" | indent
+
+cd $BUILD_DIR
+mkdir -p $BUILD_DIR/bin
+cp $CACHE_DIR/.tools/graphviz/bin/* $BUILD_DIR/bin
 
 exit 0
