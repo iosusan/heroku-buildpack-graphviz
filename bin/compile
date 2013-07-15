@@ -33,7 +33,7 @@ curl -O http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.30.1.tar.
 tar zxvf graphviz-2.30.1.tar.gz >/dev/null 2>&1
 cd graphviz-2.30.1
 echo "-----> Configuring graphviz"
-./configure --prefix=$CACHE_DIR/.tools/graphviz
+./configure --prefix=$CACHE_DIR/.tools/graphviz --disable-shared --enable-static --without-ltdl-install --without-ltdl --disable-swig --disable-python
 echo "-----> Compiling graphviz"
 make -j5
 echo "-----> Installing graphviz"
