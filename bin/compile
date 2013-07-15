@@ -43,5 +43,6 @@ echo "grapvhiz installed" | indent
 cd $BUILD_DIR
 mkdir -p $BUILD_DIR/bin
 cp $CACHE_DIR/.tools/graphviz/bin/* $BUILD_DIR/bin
+mv $BUILD_DIR/bin/dot_static $BUILD_DIR/bin/dot
 
 exit 0
