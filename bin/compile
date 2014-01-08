@@ -22,10 +22,25 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 
 GRAPHVIZ_BUILD="$(mktmpdir graphviz)"
+LIBPNG_BUILD="$(mktmpdir libpng)"
 
 mkdir -p $CACHE_DIR/.tools/graphviz
 
 export PATH=/sbin:/usr/sbin:$PATH:
+
+echo "-----> Fetching libpng"
+cd $LIBPNG_BUILD
+curl -O http://downloads.sourceforge.net/libpng/libpng-1.6.8.tar.xz
+tar -xJf libpng-1.6.8.tar.xz >/dev/null 2>&1
+cd libpng-1.6.8
+echo "-----> Condfiguring libpng"
+./configure --prefix=$CACHE_DIR/.tools/libpng
+echo "-----> Compiling libpng"
+make -j5
+echo "-----> Installing libpng"
+make install
+echo "libpng installed" | indent
+# will have to use heroku config:set LD_LIBRARY_PATH=$CACHE_DIR/.tools/libpng
 
 echo "-----> Fetching graphviz"
 cd $GRAPHVIZ_BUILD
@@ -33,7 +48,7 @@ curl -O http://www.graphviz.org/pub/graphviz/stable/SOURCES/graphviz-2.30.1.tar.
 tar zxvf graphviz-2.30.1.tar.gz >/dev/null 2>&1
 cd graphviz-2.30.1
 echo "-----> Configuring graphviz"
-./configure --prefix=$CACHE_DIR/.tools/graphviz --disable-shared --enable-static --without-ltdl-install --without-ltdl --disable-swig --disable-python
+./configure --prefix=$CACHE_DIR/.tools/graphviz
 echo "-----> Compiling graphviz"
 make -j5
 echo "-----> Installing graphviz"
